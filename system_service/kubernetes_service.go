@@ -1,8 +1,8 @@
 package system_service
 
 import (
-	kubeApi "system_service/kubernetes"                         // todo
-	"system_service/kubernetes/KubeRESTfulClient/ResourceModel" // todo
+	kubeApi "system-service/kubernetes"                         // todo
+	"system-service/kubernetes/KubeRESTfulClient/ResourceModel" // todo
 
 	"github.com/astaxie/beego"
 )
