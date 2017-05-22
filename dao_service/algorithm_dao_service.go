@@ -53,7 +53,7 @@ func (this *AlgorithmDaoService) GetAll() ([]*model.Algorithm, error) {
 	return algorithms, err
 }
 
-func (this *AlgorithmDaoService) ApiGetAlgorithmById(id int64) (*model.Algorithm, error) {
+func (this *AlgorithmDaoService) GetById(id int64) (*model.Algorithm, error) {
 	var result []byte
 	var err error
 
@@ -86,7 +86,7 @@ func (this *AlgorithmDaoService) ApiGetAlgorithmById(id int64) (*model.Algorithm
 	return &a, err
 }
 
-func (this *AlgorithmDaoService) ApiGetAlgorithmByNameAndVersion(name string, version string) (*model.Algorithm, error) {
+func (this *AlgorithmDaoService) GetByNameAndVersion(name string, version string) (*model.Algorithm, error) {
 	var result []byte
 	var err error
 
@@ -119,7 +119,7 @@ func (this *AlgorithmDaoService) ApiGetAlgorithmByNameAndVersion(name string, ve
 	return &a, err
 }
 
-func (this *AlgorithmDaoService) ApiCreateAlgorithm(algorithm *model.Algorithm) (*model.Algorithm, error) {
+func (this *AlgorithmDaoService) Create(algorithm *model.Algorithm) (*model.Algorithm, error) {
 	var result []byte
 	var err error
 
@@ -159,7 +159,7 @@ func (this *AlgorithmDaoService) ApiCreateAlgorithm(algorithm *model.Algorithm) 
 	return &a, err
 }
 
-func (this *AlgorithmDaoService) ApiUpdateAlgorithm(algorithm *model.Algorithm) (*model.Algorithm, error) {
+func (this *AlgorithmDaoService) Update(algorithm *model.Algorithm) (*model.Algorithm, error) {
 	var result []byte
 	var err error
 
@@ -199,7 +199,7 @@ func (this *AlgorithmDaoService) ApiUpdateAlgorithm(algorithm *model.Algorithm) 
 	return &a, err
 }
 
-func (this *AlgorithmDaoService) ApiDeleteAlgorithmById(id int64) error {
+func (this *AlgorithmDaoService) DeleteById(id int64) error {
 	var result []byte
 	var err error
 
