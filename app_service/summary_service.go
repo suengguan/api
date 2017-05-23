@@ -1,7 +1,6 @@
 package app_service
 
 import (
-	//"config"
 	"encoding/json"
 	"fmt"
 	"model"
@@ -11,23 +10,21 @@ import (
 	"github.com/astaxie/beego"
 )
 
-const (
-	// SUMMARY_SERVICE = "http://192.168.0.206:9007/v1/summary"
-	//SUMMARY_SERVICE = "summary-service"
-	SUMMARY_SERVICE = "http://summary-service.pme-system-beta1:8080/v1/summary"
-)
+type SummaryService struct {
+	baseUrl string
+}
 
-func ApiGetSummary(userId int64) ([]byte, error) {
+var SummaryApi SummaryService
+
+func (this *SummaryService) Init(ipAddr string) {
+	this.baseUrl = ipAddr + "/v1/summary"
+}
+
+func (this *SummaryService) Get(userId int64) ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(SUMMARY_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := SUMMARY_SERVICE + "/" + strconv.FormatInt(userId, 10)
+	url := this.baseUrl + "/" + strconv.FormatInt(userId, 10)
 	result, err = httpclient.Get(url)
 	if err != nil {
 		return nil, err

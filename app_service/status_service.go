@@ -1,7 +1,6 @@
 package app_service
 
 import (
-	//"config"
 	"encoding/json"
 	"fmt"
 	"model"
@@ -11,23 +10,21 @@ import (
 	"github.com/astaxie/beego"
 )
 
-const (
-	//STATUS_SERVICE = "http://192.168.0.206:9006/v1/status"
-	//STATUS_SERVICE = "status-service"
-	STATUS_SERVICE = "http://status-service.pme-system-beta1:8080/v1/status"
-)
+type StatusService struct {
+	baseUrl string
+}
 
-func ApiGetAllJobStatus(userId int64) ([]byte, error) {
+var StatusApi StatusService
+
+func (this *StatusService) Init(ipAddr string) {
+	this.baseUrl = ipAddr + "/v1/status"
+}
+
+func (this *StatusService) GetAllJobStatus(userId int64) ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(STATUS_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := STATUS_SERVICE + "/job/" + strconv.FormatInt(userId, 10)
+	url := this.baseUrl + "/job/" + strconv.FormatInt(userId, 10)
 	result, err = httpclient.Get(url)
 	if err != nil {
 		return nil, err

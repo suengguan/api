@@ -1,7 +1,6 @@
 package app_service
 
 import (
-	//"config"
 	"encoding/json"
 	"fmt"
 	"model"
@@ -11,23 +10,21 @@ import (
 	"github.com/astaxie/beego"
 )
 
-const (
-	//LOG_SERVICE    = "http://192.168.0.206:9004/v1"
-	//LOG_SERVICE  = "log-service"
-	LOG_SERVICE = "http://log-service.pme-system-beta1:8080/v1"
-)
+type LogService struct {
+	baseUrl string
+}
 
-func ApiWriteAction(data []byte) error {
+var LogApi LogService
+
+func (this *LogService) Init(ipAddr string) {
+	this.baseUrl = ipAddr + "/v1"
+}
+
+func (this *LogService) WriteAction(data []byte) error {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(LOG_SERVICE)
-	// if err != nil {
-	// 	return err
-	// }
-
-	url := LOG_SERVICE + "/action/"
+	url := this.baseUrl + "/action/"
 	result, err = httpclient.Post(url, data)
 	if err != nil {
 		return err
@@ -49,17 +46,11 @@ func ApiWriteAction(data []byte) error {
 	return err
 }
 
-func ApiGetAllActions(userId int64) ([]byte, error) {
+func (this *LogService) GetAllActions(userId int64) ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(LOG_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := LOG_SERVICE + "/action/" + strconv.FormatInt(userId, 10)
+	url := this.baseUrl + "/action/" + strconv.FormatInt(userId, 10)
 	result, err = httpclient.Get(url)
 	if err != nil {
 		return nil, err
@@ -81,17 +72,11 @@ func ApiGetAllActions(userId int64) ([]byte, error) {
 	return ([]byte)(response.Result), err
 }
 
-func ApiGetPodLog(podId int64) ([]byte, error) {
+func (this *LogService) GetPodLog(podId int64) ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(LOG_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := LOG_SERVICE + "/log/pod/" + strconv.FormatInt(podId, 10)
+	url := this.baseUrl + "/log/pod/" + strconv.FormatInt(podId, 10)
 	result, err = httpclient.Get(url)
 	if err != nil {
 		return nil, err

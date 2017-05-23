@@ -1,7 +1,6 @@
 package app_service
 
 import (
-	//"config"
 	"encoding/json"
 	"fmt"
 	"model"
@@ -10,23 +9,21 @@ import (
 	"github.com/astaxie/beego"
 )
 
-const (
-	// ALGORITHM_SERVICE = "http://192.168.0.206:9001/v1/algorithm"
-	//ALGORITHM_SERVICE = "algorithm-service"
-	ALGORITHM_SERVICE = "http://algorithm-service.pme-system-beta1:8080/v1/algorithm"
-)
+type AlgorithmService struct {
+	baseUrl string
+}
 
-func ApiCreateAlgorithm(data []byte) ([]byte, error) {
+var AlgorithmApi AlgorithmService
+
+func (this *AlgorithmService) Init(ipAddr string) {
+	this.baseUrl = ipAddr + "/v1/algorithm"
+}
+
+func (this *AlgorithmService) Create(data []byte) ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(ALGORITHM_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := ALGORITHM_SERVICE + "/"
+	url := this.baseUrl + "/"
 	result, err = httpclient.Post(url, data)
 	if err != nil {
 		return nil, err
@@ -48,17 +45,11 @@ func ApiCreateAlgorithm(data []byte) ([]byte, error) {
 	return ([]byte)(response.Result), err
 }
 
-func ApiDeleteAlgorithm(data []byte) error {
+func (this *AlgorithmService) Delete(data []byte) error {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(ALGORITHM_SERVICE)
-	// if err != nil {
-	// 	return err
-	// }
-
-	url := ALGORITHM_SERVICE + "/"
+	url := this.baseUrl + "/"
 	result, err = httpclient.Delete(url, data)
 	if err != nil {
 		return err
@@ -80,17 +71,11 @@ func ApiDeleteAlgorithm(data []byte) error {
 	return err
 }
 
-func ApiUpdateAlgorithm(data []byte) ([]byte, error) {
+func (this *AlgorithmService) Update(data []byte) ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(ALGORITHM_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := ALGORITHM_SERVICE + "/"
+	url := this.baseUrl + "/"
 	result, err = httpclient.Put(url, data)
 	if err != nil {
 		return nil, err
@@ -112,17 +97,11 @@ func ApiUpdateAlgorithm(data []byte) ([]byte, error) {
 	return ([]byte)(response.Result), err
 }
 
-func ApiGetAllAlgorithm() ([]byte, error) {
+func (this *AlgorithmService) GetAll() ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(ALGORITHM_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := ALGORITHM_SERVICE + "/"
+	url := this.baseUrl + "/"
 	result, err = httpclient.Get(url)
 	if err != nil {
 		return nil, err

@@ -1,7 +1,6 @@
 package app_service
 
 import (
-	//"config"
 	"encoding/json"
 	"fmt"
 	"model"
@@ -10,23 +9,21 @@ import (
 	"github.com/astaxie/beego"
 )
 
-const (
-	//LOGIN_SERVICE = "http://192.168.0.206:9005/v1/login"
-	//LOGIN_SERVICE = "login-service"
-	LOGIN_SERVICE = "http://login-service.pme-system-beta1:8080/v1/login"
-)
+type LoginService struct {
+	baseUrl string
+}
 
-func ApiLogin(data []byte) ([]byte, error) {
+var LoginApi LoginService
+
+func (this *LoginService) Init(ipAddr string) {
+	this.baseUrl = ipAddr + "/v1/login"
+}
+
+func (this *LoginService) Login(data []byte) ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(LOGIN_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := LOGIN_SERVICE + "/"
+	url := this.baseUrl + "/"
 	result, err = httpclient.Post(url, data)
 	if err != nil {
 		return nil, err

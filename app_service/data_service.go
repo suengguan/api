@@ -1,7 +1,6 @@
 package app_service
 
 import (
-	//"config"
 	"encoding/json"
 	"fmt"
 	"model"
@@ -11,23 +10,21 @@ import (
 	"github.com/astaxie/beego"
 )
 
-const (
-	// DATA_SERVICE = "http://192.168.0.206:9003/v1/data"
-	//DATA_SERVICE      = "data-service"
-	DATA_SERVICE = "http://data-service.pme-system-beta1:8080/v1/data"
-)
+type DataService struct {
+	baseUrl string
+}
 
-func ApiGetInputFiles(userId int64) ([]byte, error) {
+var DataApi DataService
+
+func (this *DataService) Init(ipAddr string) {
+	this.baseUrl = ipAddr + "/v1/data"
+}
+
+func (this *DataService) GetInputFiles(userId int64) ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(DATA_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := DATA_SERVICE + "/input/" + strconv.FormatInt(userId, 10)
+	url := this.baseUrl + "/input/" + strconv.FormatInt(userId, 10)
 	result, err = httpclient.Get(url)
 	if err != nil {
 		return nil, err

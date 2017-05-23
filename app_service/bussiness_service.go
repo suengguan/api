@@ -1,7 +1,6 @@
 package app_service
 
 import (
-	//"config"
 	"encoding/json"
 	"fmt"
 	"model"
@@ -11,23 +10,21 @@ import (
 	"github.com/astaxie/beego"
 )
 
-const (
-	//BUSSINESS_SERVICE = "http://192.168.0.206:9002/v1"
-	//BUSSINESS_SERVICE = "bussiness-service"
-	BUSSINESS_SERVICE = "http://bussiness-service.pme-system-beta1:8080/v1"
-)
+type BussinessService struct {
+	baseUrl string
+}
 
-func ApiCreateProject(data []byte) ([]byte, error) {
+var BussinessApi BussinessService
+
+func (this *BussinessService) Init(ipAddr string) {
+	this.baseUrl = ipAddr + "/v1"
+}
+
+func (this *BussinessService) CreateProject(data []byte) ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(BUSSINESS_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := BUSSINESS_SERVICE + "/project/"
+	url := this.baseUrl + "/project/"
 	result, err = httpclient.Post(url, data)
 	if err != nil {
 		return nil, err
@@ -49,17 +46,11 @@ func ApiCreateProject(data []byte) ([]byte, error) {
 	return ([]byte)(response.Result), err
 }
 
-func ApiCreateJob(data []byte) ([]byte, error) {
+func (this *BussinessService) CreateJob(data []byte) ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(BUSSINESS_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := BUSSINESS_SERVICE + "/job/"
+	url := this.baseUrl + "/job/"
 	result, err = httpclient.Post(url, data)
 	if err != nil {
 		return nil, err
@@ -81,17 +72,11 @@ func ApiCreateJob(data []byte) ([]byte, error) {
 	return ([]byte)(response.Result), err
 }
 
-func ApiUpdateJob(data []byte) ([]byte, error) {
+func (this *BussinessService) UpdateJob(data []byte) ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(BUSSINESS_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := BUSSINESS_SERVICE + "/job/"
+	url := this.baseUrl + "/job/"
 	result, err = httpclient.Put(url, data)
 	if err != nil {
 		return nil, err
@@ -113,17 +98,11 @@ func ApiUpdateJob(data []byte) ([]byte, error) {
 	return ([]byte)(response.Result), err
 }
 
-func ApiGetCurrentPods(userId int64) ([]byte, error) {
+func (this *BussinessService) GetCurrentPods(userId int64) ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(BUSSINESS_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := BUSSINESS_SERVICE + "/pod/current/" + strconv.FormatInt(userId, 10)
+	url := this.baseUrl + "/pod/current/" + strconv.FormatInt(userId, 10)
 	result, err = httpclient.Get(url)
 	if err != nil {
 		return nil, err

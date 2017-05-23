@@ -18,6 +18,7 @@ var UserDaoApi UserDaoService
 
 func (this *UserDaoService) Init(ipAddr string) {
 	this.baseUrl = ipAddr + "/v1/user"
+	beego.Debug(this.baseUrl)
 }
 
 func (this *UserDaoService) GetAll() ([]*model.User, error) {

@@ -1,7 +1,6 @@
 package app_service
 
 import (
-	//"config"
 	"encoding/json"
 	"fmt"
 	"model"
@@ -10,23 +9,21 @@ import (
 	"github.com/astaxie/beego"
 )
 
-const (
-	// ACCOUNT_SERVICE = "http://192.168.0.206:9000/v1/account"
-	ACCOUNT_SERVICE = "http://account-service.pme-system-beta1:8080/v1/account"
-	//ACCOUNT_SERVICE = "account-service"
-)
+type AccountService struct {
+	baseUrl string
+}
 
-func ApiRegisterAccount(data []byte) ([]byte, error) {
+var AccountApi AccountService
+
+func (this *AccountService) Init(ipAddr string) {
+	this.baseUrl = ipAddr + "/v1/account"
+}
+
+func (this *AccountService) Register(data []byte) ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(ACCOUNT_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := ACCOUNT_SERVICE + "/register/"
+	url := this.baseUrl + "/register/"
 	result, err = httpclient.Post(url, data)
 	if err != nil {
 		return nil, err
@@ -48,17 +45,12 @@ func ApiRegisterAccount(data []byte) ([]byte, error) {
 	return ([]byte)(response.Result), err
 }
 
-func ApiDeleteAccounts(data []byte) ([]byte, error) {
+// delete accounts
+func (this *AccountService) Delete(data []byte) ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(ACCOUNT_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := ACCOUNT_SERVICE + "/"
+	url := this.baseUrl + "/"
 	result, err = httpclient.Delete(url, data)
 	if err != nil {
 		return nil, err
@@ -80,17 +72,11 @@ func ApiDeleteAccounts(data []byte) ([]byte, error) {
 	return ([]byte)(response.Result), err
 }
 
-func ApiUpdateAccount(data []byte) ([]byte, error) {
+func (this *AccountService) Update(data []byte) ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(ACCOUNT_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := ACCOUNT_SERVICE + "/"
+	url := this.baseUrl + "/"
 	result, err = httpclient.Put(url, data)
 	if err != nil {
 		return nil, err
@@ -112,17 +98,11 @@ func ApiUpdateAccount(data []byte) ([]byte, error) {
 	return ([]byte)(response.Result), err
 }
 
-func ApiGetAllAccount() ([]byte, error) {
+func (this *AccountService) GetAll() ([]byte, error) {
 	var result []byte
 	var err error
 
-	// var serviceBaseUrl string
-	// serviceBaseUrl, err = config.GetUrlByServiceName(ACCOUNT_SERVICE)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	url := ACCOUNT_SERVICE + "/"
+	url := this.baseUrl + "/"
 	result, err = httpclient.Get(url)
 	if err != nil {
 		return nil, err
